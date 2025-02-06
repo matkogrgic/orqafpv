@@ -66,14 +66,7 @@ static void MX_TIM3_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 /*
-	ADDING
-	CODE
-	FOR
-	LCD SCREEN
-	HERE
-	I
-	MAKE
-	FUNCTIONS
+	DELETING BIG COMMENT, MAKING SMALL
 */
 volatile uint32_t stopwatch_count = 0;  // Stopwatch counter (1 count = 10ms)
 volatile uint8_t isRunning = 0;
