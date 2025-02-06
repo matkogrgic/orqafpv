@@ -1,53 +1,50 @@
-10:51:42 **** Incremental Build of configuration Debug for project DroneStopwatch-copy ****
+14:30:48 **** Incremental Build of configuration Debug for project DroneStopwatch-copy ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'checkForDrone':
-../Core/Src/main.c:142:13: warning: implicit declaration of function 'start_stopwatch' [-Wimplicit-function-declaration]
-  142 |             start_stopwatch();
+../Core/Src/main.c:151:13: warning: implicit declaration of function 'start_stopwatch' [-Wimplicit-function-declaration]
+  151 |             start_stopwatch();
       |             ^~~~~~~~~~~~~~~
-../Core/Src/main.c:149:13: warning: implicit declaration of function 'stop_stopwatch' [-Wimplicit-function-declaration]
-  149 |             stop_stopwatch();
+../Core/Src/main.c:158:13: warning: implicit declaration of function 'stop_stopwatch' [-Wimplicit-function-declaration]
+  158 |             stop_stopwatch();
       |             ^~~~~~~~~~~~~~
-../Core/Src/main.c:155:9: warning: implicit declaration of function 'send_time_to_serial' [-Wimplicit-function-declaration]
-  155 |         send_time_to_serial();
-      |         ^~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:164:9: warning: implicit declaration of function 'send_time_to_outputs' [-Wimplicit-function-declaration]
+  164 |         send_time_to_outputs();
+      |         ^~~~~~~~~~~~~~~~~~~~
 ../Core/Src/main.c: At top level:
-../Core/Src/main.c:168:6: warning: conflicting types for 'send_time_to_serial'; have 'void()'
-  168 | void send_time_to_serial() {
-      |      ^~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:155:9: note: previous implicit declaration of 'send_time_to_serial' with type 'void()'
-  155 |         send_time_to_serial();
-      |         ^~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:174:6: warning: conflicting types for 'start_stopwatch'; have 'void()'
-  174 | void start_stopwatch() {
+../Core/Src/main.c:180:6: warning: conflicting types for 'send_time_to_outputs'; have 'void()'
+  180 | void send_time_to_outputs() {
+      |      ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:164:9: note: previous implicit declaration of 'send_time_to_outputs' with type 'void()'
+  164 |         send_time_to_outputs();
+      |         ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:191:6: warning: conflicting types for 'start_stopwatch'; have 'void()'
+  191 | void start_stopwatch() {
       |      ^~~~~~~~~~~~~~~
-../Core/Src/main.c:142:13: note: previous implicit declaration of 'start_stopwatch' with type 'void()'
-  142 |             start_stopwatch();
+../Core/Src/main.c:151:13: note: previous implicit declaration of 'start_stopwatch' with type 'void()'
+  151 |             start_stopwatch();
       |             ^~~~~~~~~~~~~~~
-../Core/Src/main.c:179:6: warning: conflicting types for 'stop_stopwatch'; have 'void()'
-  179 | void stop_stopwatch() {
+../Core/Src/main.c:196:6: warning: conflicting types for 'stop_stopwatch'; have 'void()'
+  196 | void stop_stopwatch() {
       |      ^~~~~~~~~~~~~~
-../Core/Src/main.c:149:13: note: previous implicit declaration of 'stop_stopwatch' with type 'void()'
-  149 |             stop_stopwatch();
+../Core/Src/main.c:158:13: note: previous implicit declaration of 'stop_stopwatch' with type 'void()'
+  158 |             stop_stopwatch();
       |             ^~~~~~~~~~~~~~
-../Core/Src/main.c:424:13: warning: 'MX_USB_OTG_FS_PCD_Init' defined but not used [-Wunused-function]
-  424 | static void MX_USB_OTG_FS_PCD_Init(void)
-      |             ^~~~~~~~~~~~~~~~~~~~~~
 arm-none-eabi-gcc -o "DroneStopwatch-copy.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Matko Grgic\OneDrive\Desktop\ORQAFPV\orqafpv\DroneStopwatch-copy\STM32F446ZETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DroneStopwatch-copy.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: DroneStopwatch-copy.elf
  
 arm-none-eabi-size  DroneStopwatch-copy.elf 
 arm-none-eabi-objdump -h -S DroneStopwatch-copy.elf  > "DroneStopwatch-copy.list"
    text	   data	    bss	    dec	    hex	filename
-  21988	     92	   2140	  24220	   5e9c	DroneStopwatch-copy.elf
+  29448	     96	   3480	  33024	   8100	DroneStopwatch-copy.elf
 Finished building: default.size.stdout
  
 Finished building: DroneStopwatch-copy.list
  
-10:51:48 **** Incremental Build of configuration Debug for project DroneStopwatch-copy ****
+14:30:56 **** Incremental Build of configuration Debug for project DroneStopwatch-copy ****
 make -j8 all 
 arm-none-eabi-size  DroneStopwatch-copy.elf 
    text	   data	    bss	    dec	    hex	filename
-  21988	     92	   2140	  24220	   5e9c	DroneStopwatch-copy.elf
+  29448	     96	   3480	  33024	   8100	DroneStopwatch-copy.elf
 Finished building: default.size.stdout
  
