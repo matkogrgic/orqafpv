@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <string.h>
+#include "i2c_lcd.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,12 +42,16 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+I2C_HandleTypeDef hi2c1;
+
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart3;
 
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
+
+I2C_LCD_HandleTypeDef lcd1;
 
 /* USER CODE BEGIN PV */
 
@@ -59,6 +64,7 @@ static void MX_USART3_UART_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_I2C1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -74,6 +80,7 @@ volatile uint32_t echo_start = 0, echo_end = 0;
 volatile uint8_t echo_captured = 0;
 volatile uint8_t previousState = 0;
 volatile uint8_t start_stop_stay = 0;
+volatile uint8_t checkDelay = 10;
 
 volatile uint32_t distance = 0;
 
@@ -115,7 +122,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 void readSensor() {
 
 	    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);  // Start the PWM (TRIG pulse)
-	    HAL_Delay(1);  							   // Pulse duration: 10us
+	    HAL_Delay(1);  							   // Pulse duration: 10us (10ms MATKO)
 	    HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1);   // Stop the PWM
 	    __HAL_TIM_SET_COUNTER(&htim2, 0);          // Reset counter for TIM2
 	    echo_captured = 0;                         // Reset capture state
@@ -131,12 +138,14 @@ float getDistanceInCm() {
 
 void checkForDrone() {
     readSensor();
-    HAL_Delay(30); // Wait for measurement
+    HAL_Delay(checkDelay);
     float distance = getDistanceInCm();
-
+    checkDelay = 10;
     uint8_t currentState = (distance > 0 && distance < 30) ? 1 : 0;
 
 
+    if(currentState != previousState){
+    checkDelay = 100;
     if (previousState == 1 && currentState == 0 && start_stop_stay % 4 == 0) {
         if (!isRunning ) {
             start_stopwatch();
@@ -152,23 +161,33 @@ void checkForDrone() {
     }
 
     else if(previousState == 1 && currentState == 0 && start_stop_stay % 4 == 2){
-        send_time_to_serial();
+        send_time_to_outputs();
         start_stop_stay++;
         }
 
     else if(previousState == 0 && currentState == 1 && start_stop_stay % 4 == 3){
-            send_time_to_serial();
+            send_time_to_outputs();
             start_stop_stay++;
             }
+    }
+
 
     previousState = currentState;
+
 }
 
 
-void send_time_to_serial() {
+void send_time_to_outputs() {
+	HAL_Delay(10);
     char buffer[20]="";
     sprintf(buffer, "\rTime: %lu.%02lus", stopwatch_count / 100, stopwatch_count % 100);
     HAL_UART_Transmit(&huart3, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+
+
+    // snprintf - ensures that the buffer is not overrun and always null-terminated (no random letters from previous itteration
+    snprintf(buffer, sizeof(buffer), "Time: %lu.%02lus", stopwatch_count / 100, stopwatch_count % 100);
+    lcd_gotoxy(&lcd1, 0, 0);
+    lcd_puts(&lcd1, buffer);
 }
 
 void start_stopwatch() {
@@ -178,7 +197,7 @@ void start_stopwatch() {
 
 void stop_stopwatch() {
     isRunning = 0;
-    send_time_to_serial();
+    send_time_to_outputs();
 }
 
 
@@ -190,34 +209,68 @@ void send_distance_to_serial() {
 
 
 
+
+
 /* USER CODE END 0 */
 
 /**
   * @brief  The application entry point.
   * @retval int
   */
+int main(void)
+{
 
-int main(void) {
-    HAL_Init();
-    SystemClock_Config();
-    MX_GPIO_Init();
-    MX_USART3_UART_Init();
-    MX_TIM2_Init();
-    MX_TIM3_Init();
+  /* USER CODE BEGIN 1 */
 
-    HAL_TIM_Base_Start_IT(&htim2);  // Start the TIM2 base timer for input capture
-    HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1);  // Start TIM2 input capture for ECHO signal
+  /* USER CODE END 1 */
 
-    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);  // Start PWM for TRIG pin
+  /* MCU Configuration--------------------------------------------------------*/
 
-    send_time_to_serial();
-    while (1)
-      {
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
 
-        checkForDrone();
-        if(isRunning) send_time_to_serial();
-      }
+  /* USER CODE BEGIN Init */
 
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_USART3_UART_Init();
+  MX_USB_OTG_FS_PCD_Init();
+  MX_TIM2_Init();
+  MX_TIM3_Init();
+  MX_I2C1_Init();
+  /* USER CODE BEGIN 2 */
+  HAL_TIM_Base_Start_IT(&htim2);  // Start the TIM2 base timer for input capture
+  HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1);  // Start TIM2 input capture for ECHO signal
+
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);  // Start PWM for TRIG pin
+
+  send_time_to_outputs();
+
+  // LCD initialization
+	  lcd1.hi2c = &hi2c1;
+	  lcd1.address = 0x4E;
+	  lcd_init(&lcd1);
+
+  // CONTENT ON LCD
+	  lcd_clear(&lcd1);
+  /* USER CODE END 2 */
+
+  while (1)
+        {
+          checkForDrone();
+          if(isRunning) send_time_to_outputs();
+
+        }
+  /* USER CODE END 3 */
 }
 
 /**
@@ -264,6 +317,40 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief I2C1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C1_Init(void)
+{
+
+  /* USER CODE BEGIN I2C1_Init 0 */
+
+  /* USER CODE END I2C1_Init 0 */
+
+  /* USER CODE BEGIN I2C1_Init 1 */
+
+  /* USER CODE END I2C1_Init 1 */
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.ClockSpeed = 100000;
+  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C1_Init 2 */
+
+  /* USER CODE END I2C1_Init 2 */
+
 }
 
 /**
