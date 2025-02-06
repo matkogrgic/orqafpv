@@ -1,0 +1,18 @@
+!SESSION 2025-02-06 09:03:27.748 -----------------------------------------------
+eclipse.buildId=Version 1.17.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-02-06 09:04:51.735
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-02-06 09:04:51.740
+!MESSAGE Log4j2 initialized with config file C:\Users\Matko Grgic\OneDrive\Desktop\ORQAFPV\orqafpv\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-02-06 09:04:58.753
+!MESSAGE Started RMI Server, listening on port 41338
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-02-06 09:08:04.282
+!MESSAGE Indexed 'DroneStopwatch-copy' (25 sources, 126 headers) in 9.09 sec: 14,231 declarations; 75,066 references; 1 unresolved inclusions; 92 syntax errors; 240 unresolved names (0.27%)

@@ -1,0 +1,10 @@
+09:10:09 **** Incremental Build of configuration Debug for project DroneStopwatch-copy ****
+make -j8 all 
+arm-none-eabi-size  DroneStopwatch-copy.elf 
+   text	   data	    bss	    dec	    hex	filename
+  21988	     92	   2140	  24220	   5e9c	DroneStopwatch-copy.elf
+Finished building: default.size.stdout
+ 
+
+09:10:10 Build Finished. 0 errors, 0 warnings. (took 627ms)
+
