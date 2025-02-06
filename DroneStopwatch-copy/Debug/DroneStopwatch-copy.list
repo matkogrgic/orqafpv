@@ -1192,11 +1192,8 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
  8000e88:	2000015c 	.word	0x2000015c
 
 08000e8c <readSensor>:
-            echo_captured = 2;
-        }
-    }
-}
-*/
+
+
 void readSensor() {
  8000e8c:	b580      	push	{r7, lr}
  8000e8e:	af00      	add	r7, sp, #0
