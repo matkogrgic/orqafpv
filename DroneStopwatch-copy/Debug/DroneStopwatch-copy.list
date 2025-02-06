@@ -1283,8 +1283,8 @@ void checkForDrone() {
  8000f28:	af00      	add	r7, sp, #0
     readSensor();
  8000f2a:	f7ff ffaf 	bl	8000e8c <readSensor>
-    HAL_Delay(50); // Wait for measurement
- 8000f2e:	2032      	movs	r0, #50	@ 0x32
+    HAL_Delay(30); // Wait for measurement
+ 8000f2e:	201e      	movs	r0, #30
  8000f30:	f000 fd76 	bl	8001a20 <HAL_Delay>
     float distance = getDistanceInCm();
  8000f34:	f7ff ffc6 	bl	8000ec4 <getDistanceInCm>

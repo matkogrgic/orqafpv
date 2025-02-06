@@ -66,11 +66,14 @@ static void MX_TIM3_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 /*
-	ME
 	ADDING
-	BIG
-	COMMENTED
-	SECTION
+	CODE
+	FOR
+	LCD SCREEN
+	HERE
+	I
+	MAKE
+	FUNCTIONS
 */
 volatile uint32_t stopwatch_count = 0;  // Stopwatch counter (1 count = 10ms)
 volatile uint8_t isRunning = 0;
@@ -135,7 +138,7 @@ float getDistanceInCm() {
 
 void checkForDrone() {
     readSensor();
-    HAL_Delay(50); // Wait for measurement
+    HAL_Delay(30); // Wait for measurement
     float distance = getDistanceInCm();
 
     uint8_t currentState = (distance > 0 && distance < 30) ? 1 : 0;
