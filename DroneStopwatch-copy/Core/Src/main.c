@@ -65,7 +65,13 @@ static void MX_TIM3_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+/*
+	ME
+	ADDING
+	BIG
+	COMMENTED
+	SECTION
+*/
 volatile uint32_t stopwatch_count = 0;  // Stopwatch counter (1 count = 10ms)
 volatile uint8_t isRunning = 0;
 volatile uint32_t echo_start = 0, echo_end = 0;
