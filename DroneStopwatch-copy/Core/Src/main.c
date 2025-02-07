@@ -51,10 +51,8 @@ UART_HandleTypeDef huart3;
 
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
-I2C_LCD_HandleTypeDef lcd1;
-
 /* USER CODE BEGIN PV */
-
+I2C_LCD_HandleTypeDef lcd1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -84,11 +82,32 @@ volatile uint8_t checkDelay = 10;
 
 volatile uint32_t distance = 0;
 
+volatile uint32_t previousMillis = 0;  // Track debounce time
+volatile uint32_t currentMillis  = 0;
+
+void start_stopwatch();
+void stop_stopwatch();
+void send_time_to_outputs();
+
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+
+	currentMillis = HAL_GetTick();
+    if (GPIO_Pin == GPIO_PIN_0 && (currentMillis - previousMillis > 200)) {
+
+        if(isRunning){	stop_stopwatch();  start_stop_stay = 3; }
+        else		 {	start_stopwatch(); start_stop_stay = 1; }
+
+        previousMillis = currentMillis;
+    }
+}
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
     if (htim->Instance == TIM2 && isRunning) { // Check if interrupt is from TIM2
 
             stopwatch_count++;
         }
+
 
 }
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
@@ -106,19 +125,6 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
     }
 }
 
-/*
-void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
-    if (htim->Instance == TIM2) {
-        if (echo_captured == 0) {
-            echo_start = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
-            echo_captured = 1;
-        } else {
-            echo_end = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
-            echo_captured = 2;
-        }
-    }
-}
-*/
 void readSensor() {
 
 	    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);  // Start the PWM (TRIG pulse)
@@ -145,7 +151,7 @@ void checkForDrone() {
 
 
     if(currentState != previousState){
-    checkDelay = 100;
+    checkDelay = 200;
     if (previousState == 1 && currentState == 0 && start_stop_stay % 4 == 0) {
         if (!isRunning ) {
             start_stopwatch();
@@ -185,7 +191,7 @@ void send_time_to_outputs() {
 
 
     // snprintf - ensures that the buffer is not overrun and always null-terminated (no random letters from previous itteration
-    snprintf(buffer, sizeof(buffer), "Time: %lu.%02lus", stopwatch_count / 100, stopwatch_count % 100);
+    snprintf(buffer, sizeof(buffer), "Time: %lu.%02lus     ", stopwatch_count / 100, stopwatch_count % 100);
     lcd_gotoxy(&lcd1, 0, 0);
     lcd_puts(&lcd1, buffer);
 }
@@ -253,8 +259,6 @@ int main(void)
 
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);  // Start PWM for TRIG pin
 
-  send_time_to_outputs();
-
   // LCD initialization
 	  lcd1.hi2c = &hi2c1;
 	  lcd1.address = 0x4E;
@@ -262,14 +266,19 @@ int main(void)
 
   // CONTENT ON LCD
 	  lcd_clear(&lcd1);
+	  send_time_to_outputs();
   /* USER CODE END 2 */
 
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
   while (1)
-        {
-          checkForDrone();
-          if(isRunning) send_time_to_outputs();
+  {
+	  checkForDrone();
+	  if(isRunning) send_time_to_outputs();
+    /* USER CODE END WHILE */
 
-        }
+    /* USER CODE BEGIN 3 */
+  }
   /* USER CODE END 3 */
 }
 
@@ -588,6 +597,16 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(USB_OverCurrent_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PD0 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 2, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
