@@ -1,0 +1,10 @@
+09:34:32 **** Incremental Build of configuration Debug for project CLK_TestProject ****
+make -j8 all 
+arm-none-eabi-size  CLK_TestProject.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17076	    104	   3232	  20412	   4fbc	CLK_TestProject.elf
+Finished building: default.size.stdout
+ 
+
+09:34:32 Build Finished. 0 errors, 0 warnings. (took 511ms)
+
