@@ -1,28 +1,179 @@
-10:12:00 **** Incremental Build of configuration Debug for project DroneStopwatch-copy ****
+10:08:26 **** Incremental Build of configuration Debug for project LapTimer ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'send_time_to_outputs':
-../Core/Src/main.c:194:54: warning: 's     ' directive output may be truncated writing 6 bytes into a region of size between 3 and 10 [-Wformat-truncation=]
-  194 |     snprintf(buffer, sizeof(buffer), "Time: %lu.%02lus     ", stopwatch_count / 100, stopwatch_count % 100);
-      |                                                      ^~~~~~
-../Core/Src/main.c:194:5: note: 'snprintf' output between 17 and 24 bytes into a destination of size 20
-  194 |     snprintf(buffer, sizeof(buffer), "Time: %lu.%02lus     ", stopwatch_count / 100, stopwatch_count % 100);
-      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-arm-none-eabi-gcc -o "DroneStopwatch-copy.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Matko Grgic\OneDrive\Desktop\ORQAFPV\orqafpv\DroneStopwatch-copy\STM32F446ZETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DroneStopwatch-copy.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: DroneStopwatch-copy.elf
+../Core/Src/main.c:195:5: warning: implicit declaration of function 'snprintf' [-Wimplicit-function-declaration]
+  195 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |     ^~~~~~~~
+../Core/Src/main.c:26:1: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+   25 | #include "i2c_lcd.h"
+  +++ |+#include <stdio.h>
+   26 | /* USER CODE END Includes */
+../Core/Src/main.c:195:5: warning: incompatible implicit declaration of built-in function 'snprintf' [-Wbuiltin-declaration-mismatch]
+  195 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |     ^~~~~~~~
+../Core/Src/main.c:195:5: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+../Core/Src/main.c:198:50: warning: implicit declaration of function 'strlen' [-Wimplicit-function-declaration]
+  198 |     HAL_UART_Transmit(&huart3, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+      |                                                  ^~~~~~
+../Core/Src/main.c:26:1: note: include '<string.h>' or provide a declaration of 'strlen'
+   25 | #include "i2c_lcd.h"
+  +++ |+#include <string.h>
+   26 | /* USER CODE END Includes */
+../Core/Src/main.c:198:50: warning: incompatible implicit declaration of built-in function 'strlen' [-Wbuiltin-declaration-mismatch]
+  198 |     HAL_UART_Transmit(&huart3, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+      |                                                  ^~~~~~
+../Core/Src/main.c:198:50: note: include '<string.h>' or provide a declaration of 'strlen'
+../Core/Src/main.c:195:43: warning: '%02lu' directive output may be truncated writing 2 bytes into a region of size between 1 and 8 [-Wformat-truncation=]
+  195 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |                                           ^~~~~
+../Core/Src/main.c:195:38: note: directive argument in the range [0, 99]
+  195 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |                                      ^~~~~~~~~~~
+../Core/Src/main.c:195:5: note: 'snprintf' output between 5 and 12 bytes into a destination of size 10
+  195 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:197:43: warning: '%02lu' directive output may be truncated writing 2 bytes into a region of size between 1 and 8 [-Wformat-truncation=]
+  197 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu\n", stopwatch_count / 100, stopwatch_count % 100);
+      |                                           ^~~~~
+../Core/Src/main.c:197:38: note: directive argument in the range [0, 99]
+  197 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu\n", stopwatch_count / 100, stopwatch_count % 100);
+      |                                      ^~~~~~~~~~~~~
+../Core/Src/main.c:197:5: note: 'snprintf' output between 6 and 13 bytes into a destination of size 10
+  197 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu\n", stopwatch_count / 100, stopwatch_count % 100);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "LapTimer.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Matko Grgic\OneDrive\Desktop\ORQAFPV\orqafpv\LapTimer\STM32F446ZETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LapTimer.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: LapTimer.elf
  
-arm-none-eabi-size  DroneStopwatch-copy.elf 
-arm-none-eabi-objdump -h -S DroneStopwatch-copy.elf  > "DroneStopwatch-copy.list"
+arm-none-eabi-size  LapTimer.elf 
+arm-none-eabi-objdump -h -S LapTimer.elf  > "LapTimer.list"
    text	   data	    bss	    dec	    hex	filename
-  29660	     96	   3488	  33244	   81dc	DroneStopwatch-copy.elf
+  28228	     96	   3528	  31852	   7c6c	LapTimer.elf
 Finished building: default.size.stdout
  
-Finished building: DroneStopwatch-copy.list
+Finished building: LapTimer.list
  
-10:12:04 **** Incremental Build of configuration Debug for project DroneStopwatch-copy ****
+10:08:32 **** Incremental Build of configuration Debug for project LapTimer ****
 make -j8 all 
-arm-none-eabi-size  DroneStopwatch-copy.elf 
+arm-none-eabi-size  LapTimer.elf 
    text	   data	    bss	    dec	    hex	filename
-  29660	     96	   3488	  33244	   81dc	DroneStopwatch-copy.elf
+  28228	     96	   3528	  31852	   7c6c	LapTimer.elf
+Finished building: default.size.stdout
+ 
+10:10:17 **** Incremental Build of configuration Debug for project LapTimer ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'send_time_to_outputs':
+../Core/Src/main.c:194:5: warning: implicit declaration of function 'snprintf' [-Wimplicit-function-declaration]
+  194 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |     ^~~~~~~~
+../Core/Src/main.c:26:1: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+   25 | #include "i2c_lcd.h"
+  +++ |+#include <stdio.h>
+   26 | /* USER CODE END Includes */
+../Core/Src/main.c:194:5: warning: incompatible implicit declaration of built-in function 'snprintf' [-Wbuiltin-declaration-mismatch]
+  194 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |     ^~~~~~~~
+../Core/Src/main.c:194:5: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+../Core/Src/main.c:197:50: warning: implicit declaration of function 'strlen' [-Wimplicit-function-declaration]
+  197 |     HAL_UART_Transmit(&huart3, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+      |                                                  ^~~~~~
+../Core/Src/main.c:26:1: note: include '<string.h>' or provide a declaration of 'strlen'
+   25 | #include "i2c_lcd.h"
+  +++ |+#include <string.h>
+   26 | /* USER CODE END Includes */
+../Core/Src/main.c:197:50: warning: incompatible implicit declaration of built-in function 'strlen' [-Wbuiltin-declaration-mismatch]
+  197 |     HAL_UART_Transmit(&huart3, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+      |                                                  ^~~~~~
+../Core/Src/main.c:197:50: note: include '<string.h>' or provide a declaration of 'strlen'
+../Core/Src/main.c:194:43: warning: '%02lu' directive output may be truncated writing 2 bytes into a region of size between 1 and 8 [-Wformat-truncation=]
+  194 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |                                           ^~~~~
+../Core/Src/main.c:194:38: note: directive argument in the range [0, 99]
+  194 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |                                      ^~~~~~~~~~~
+../Core/Src/main.c:194:5: note: 'snprintf' output between 5 and 12 bytes into a destination of size 10
+  194 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:196:43: warning: '%02lu' directive output may be truncated writing 2 bytes into a region of size between 1 and 8 [-Wformat-truncation=]
+  196 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu\n", stopwatch_count / 100, stopwatch_count % 100);
+      |                                           ^~~~~
+../Core/Src/main.c:196:38: note: directive argument in the range [0, 99]
+  196 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu\n", stopwatch_count / 100, stopwatch_count % 100);
+      |                                      ^~~~~~~~~~~~~
+../Core/Src/main.c:196:5: note: 'snprintf' output between 6 and 13 bytes into a destination of size 10
+  196 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu\n", stopwatch_count / 100, stopwatch_count % 100);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "LapTimer.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Matko Grgic\OneDrive\Desktop\ORQAFPV\orqafpv\LapTimer\STM32F446ZETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LapTimer.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: LapTimer.elf
+ 
+arm-none-eabi-size  LapTimer.elf 
+arm-none-eabi-objdump -h -S LapTimer.elf  > "LapTimer.list"
+   text	   data	    bss	    dec	    hex	filename
+  28228	     96	   3528	  31852	   7c6c	LapTimer.elf
+Finished building: default.size.stdout
+ 
+Finished building: LapTimer.list
+ 
+10:33:02 **** Incremental Build of configuration Debug for project LapTimer ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'send_time_to_outputs':
+../Core/Src/main.c:623:5: warning: implicit declaration of function 'snprintf' [-Wimplicit-function-declaration]
+  623 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |     ^~~~~~~~
+../Core/Src/main.c:26:1: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+   25 | #include "i2c_lcd.h"
+  +++ |+#include <stdio.h>
+   26 | /* USER CODE END Includes */
+../Core/Src/main.c:623:5: warning: incompatible implicit declaration of built-in function 'snprintf' [-Wbuiltin-declaration-mismatch]
+  623 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |     ^~~~~~~~
+../Core/Src/main.c:623:5: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+../Core/Src/main.c:626:50: warning: implicit declaration of function 'strlen' [-Wimplicit-function-declaration]
+  626 |     HAL_UART_Transmit(&huart3, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+      |                                                  ^~~~~~
+../Core/Src/main.c:26:1: note: include '<string.h>' or provide a declaration of 'strlen'
+   25 | #include "i2c_lcd.h"
+  +++ |+#include <string.h>
+   26 | /* USER CODE END Includes */
+../Core/Src/main.c:626:50: warning: incompatible implicit declaration of built-in function 'strlen' [-Wbuiltin-declaration-mismatch]
+  626 |     HAL_UART_Transmit(&huart3, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+      |                                                  ^~~~~~
+../Core/Src/main.c:626:50: note: include '<string.h>' or provide a declaration of 'strlen'
+../Core/Src/main.c:623:43: warning: '%02lu' directive output may be truncated writing 2 bytes into a region of size between 1 and 8 [-Wformat-truncation=]
+  623 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |                                           ^~~~~
+../Core/Src/main.c:623:38: note: directive argument in the range [0, 99]
+  623 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |                                      ^~~~~~~~~~~
+../Core/Src/main.c:623:5: note: 'snprintf' output between 5 and 12 bytes into a destination of size 10
+  623 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu", stopwatch_count / 100, stopwatch_count % 100);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:625:43: warning: '%02lu' directive output may be truncated writing 2 bytes into a region of size between 1 and 8 [-Wformat-truncation=]
+  625 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu\n", stopwatch_count / 100, stopwatch_count % 100);
+      |                                           ^~~~~
+../Core/Src/main.c:625:38: note: directive argument in the range [0, 99]
+  625 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu\n", stopwatch_count / 100, stopwatch_count % 100);
+      |                                      ^~~~~~~~~~~~~
+../Core/Src/main.c:625:5: note: 'snprintf' output between 6 and 13 bytes into a destination of size 10
+  625 |     snprintf(buffer, sizeof(buffer), "%lu.%02lu\n", stopwatch_count / 100, stopwatch_count % 100);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "LapTimer.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Matko Grgic\OneDrive\Desktop\ORQAFPV\orqafpv\LapTimer\STM32F446ZETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LapTimer.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: LapTimer.elf
+ 
+arm-none-eabi-size  LapTimer.elf 
+arm-none-eabi-objdump -h -S LapTimer.elf  > "LapTimer.list"
+   text	   data	    bss	    dec	    hex	filename
+  28228	     96	   3528	  31852	   7c6c	LapTimer.elf
+Finished building: default.size.stdout
+ 
+Finished building: LapTimer.list
+ 
+10:33:38 **** Incremental Build of configuration Debug for project LapTimer ****
+make -j8 all 
+arm-none-eabi-size  LapTimer.elf 
+   text	   data	    bss	    dec	    hex	filename
+  28228	     96	   3528	  31852	   7c6c	LapTimer.elf
 Finished building: default.size.stdout
  
