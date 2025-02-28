@@ -1,10 +1,10 @@
-10:33:38 **** Incremental Build of configuration Debug for project LapTimer ****
+11:23:42 **** Incremental Build of configuration Debug for project LapTimer ****
 make -j8 all 
 arm-none-eabi-size  LapTimer.elf 
    text	   data	    bss	    dec	    hex	filename
-  28228	     96	   3528	  31852	   7c6c	LapTimer.elf
+  28304	    100	   3532	  31936	   7cc0	LapTimer.elf
 Finished building: default.size.stdout
  
 
-10:33:39 Build Finished. 0 errors, 0 warnings. (took 1s.439ms)
+11:23:44 Build Finished. 0 errors, 0 warnings. (took 1s.461ms)
 
