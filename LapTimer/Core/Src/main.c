@@ -83,8 +83,15 @@ volatile uint8_t  echo_captured[NUM_SENSORS] = {0};
 volatile uint8_t isRunning = 0;
 volatile uint8_t previousState = 0;
 volatile uint8_t start_stop_stay = 0;
+<<<<<<< HEAD
 		 uint8_t ledId = 0;
 		 int second = 1000;
+=======
+volatile uint8_t button_state;
+		 uint8_t ledId = 0;
+		 int second = 1000;
+		 int detectionDistance = 40;
+>>>>>>> main
 
 /* -------------------------------- */
 /* ----- TIMER/LONG VARIABLES ----- */
@@ -97,6 +104,10 @@ volatile uint32_t currentMillis, previousMillis = 0;
 
 /* -------------------------------- */
 /* ----- USED FUNCTIONS ----- */
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim);
@@ -545,8 +556,14 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	currentMillis = HAL_GetTick();
     if (GPIO_Pin == GPIO_PIN_0 && (currentMillis - previousMillis > 200)) {
 
+<<<<<<< HEAD
         if(isRunning){	stop_stopwatch();  start_stop_stay = 2; send_time_to_outputs(); }
         else		 {	 lcd_clear(&lcd1); start_stopwatch(); start_stop_stay = 1; send_time_to_outputs();}
+=======
+        if(isRunning){	stop_stopwatch();  start_stop_stay = 2; send_time_to_outputs(); button_state++;}
+        else if(button_state == 1){ stopwatch_count = 0; send_time_to_outputs(); button_state++;}
+        else	{lcd_clear(&lcd1); start_stopwatch(); start_stop_stay = 1; send_time_to_outputs(); button_state = 0;}
+>>>>>>> main
 
         previousMillis = currentMillis;
     }
@@ -693,17 +710,28 @@ float getDistanceInCm(uint8_t ch_index) {
     return -1;
 }
 
+<<<<<<< HEAD
 //Check each sensor for value < 30cm - drone detection
 void checkForDrone() {
     readSensor();
     delay_ms(20);
+=======
+//Check each sensor for value < desetctionDistance - drone detection
+void checkForDrone() {
+    readSensor();
+    delay_ms(10);
+>>>>>>> main
     float distance[NUM_SENSORS] = {0};
     uint8_t currentState = 0;
     currentMillis = HAL_GetTick();
 
     for (int i = NUM_SENSORS - 1; i >= 0; i--) {
         distance[i] = getDistanceInCm(i);
+<<<<<<< HEAD
         if (distance[i] > 0 && distance[i] < 30) {
+=======
+        if (distance[i] > 0 && distance[i] < detectionDistance) {
+>>>>>>> main
             currentState = 1;
             ledId = i;
             break;  // Stop checking as soon as a drone is detected
